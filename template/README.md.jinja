@@ -1,0 +1,29 @@
+# {{ project_name }}
+
+## Installation
+
+To build this project, you only need to install **mise**:
+
+- **mise**: Tool version manager. Install from [mise.jd.dev](https://mise.jd.dev/)
+
+Once mise is installed, run:
+
+```bash
+mise install
+```
+
+This will automatically install the correct Python version (from `.python-version`) and uv (from `mise.toml`). No additional manual installation is required.
+
+## Building the Docker Image
+
+To build the Docker image, run:
+
+```bash
+docker build -t {{ project_name_kebab_case }}:latest .
+```
+
+**Note for SELinux systems**: The build process uses bind mounts. On SELinux-enabled systems, you must disable labeling during the build:
+
+```bash
+docker build --security-opt label=disable -t {{ project_name_kebab_case }}:latest .
+```

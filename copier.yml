@@ -1,0 +1,83 @@
+_min_copier_version: "9.11.0"
+_subdirectory: template
+
+project_name:
+  type: str
+  help: What is the name of your package?
+  placeholder: "My Package"
+  validator: >-
+    {% if not project_name %}
+    Invalid project name
+    {% endif %}
+
+project_description:
+  type: str
+  help: Describe what does your package do in one sentence?
+  placeholder: A Python package that does things.
+  validator: >-
+    {% if not project_description %}
+    Invalid project description
+    {% endif %}
+
+user_name:
+  type: str
+  help: What is the name of your package's primary author?
+  validator: >-
+    {% if not user_name %}
+    Invalid author name
+    {% endif %}
+
+user_email:
+  type: str
+  help: What is the email address of your package's primary author?
+  validator: >-
+    {% if not "@" in user_email %}
+    Invalid author email address
+    {% endif %}
+
+project_license:
+  type: str
+  help: What is the license of the project?
+  choices:
+    - MIT
+    - Apache-2.0
+    - Proprietary
+  default: MIT
+
+copyright_holder:
+  type: str
+  help: Who holds the copyright?
+  default: "{{ user_name }}"
+
+copyright_year:
+  type: str
+  default: "{{ copyright_year | default('%Y' | strftime) }}"
+  when: false
+
+python_version:
+  type: str
+  help: What is the minimum Python version your package should support?
+  default: "3.12"
+  choices:
+    - "3.10"
+    - "3.11"
+    - "3.12"
+    - "3.13"
+
+uv_version:
+  type: str
+  help: "What is the version of uv to use?"
+  default: "0.9"
+
+build_docker_image:
+  type: bool
+  help: Should a Docker image be built?
+  default: false
+
+project_name_kebab_case:
+  when: false
+  default: "{{ project_name | lower | replace(' ', '-') }}"
+
+project_name_snake_case:
+  when: false
+  default: "{{ project_name | lower | replace(' ', '_') }}"

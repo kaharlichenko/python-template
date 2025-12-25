@@ -1,0 +1,36 @@
+[build-system]
+requires = ["uv_build>={{ uv_version }},<{{ uv_version.split('.')[0] }}.{{ uv_version.split('.')[1] | int + 1 }}.0"]
+build-backend = "uv_build"
+
+[project]
+name = "{{ project_name_kebab_case }}"
+version = "0.1.0"
+description = "{{ project_description }}"
+readme = "README.md"
+requires-python = ">={{ python_version }},<4.0"
+
+{% if project_license == "Proprietary" -%}
+license = { file = "LICENSE.txt" }
+{% else -%}
+license = { text = "{{ project_license }}" }
+{% endif %}
+
+dependencies = []
+authors = [
+    { name = "{{ user_name }}", email = "{{ user_email }}" },
+]
+
+classifiers = [
+{%- if project_license == "MIT" %}
+    "License :: OSI Approved :: MIT License",
+{%- elif project_license == "Apache-2.0" -%}
+    "License :: OSI Approved :: Apache Software License",
+{%- elif project_license == "Proprietary" %}
+    "License :: Other/Proprietary License",
+{%- endif %}
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: {{ python_version }}",
+]
+
+[tool.uv]
+python-preference = "only-system" # Make uv use Python managed by mise

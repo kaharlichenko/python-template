@@ -1,0 +1,9 @@
+[env]
+_.python.venv = { path = ".venv" }
+
+[settings]
+# Make mise use Python version from .python-version which is also honored by uv
+idiomatic_version_file_enable_tools = ["python"]
+
+[tools]
+uv = "{{ uv_version }}"
