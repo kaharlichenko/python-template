@@ -5,7 +5,16 @@ min_version = "2026.7.0"
 # See https://mise.jdx.dev/lang/python.html#mise-uv
 UV_PYTHON = { value = "{% raw %}{{ tools.python.path }}{% endraw %}", tools = true}
 
+{%  set _attestations_since = {"3.10": 16, "3.11": 12, "3.12": 9, "3.13": 2} -%}
+{%- set _version_parts = python_version.split('.') -%}
+{%- set _attested_from = _attestations_since.get(python_version_major_minor, 0) -%}
+{%- set _lacks_attestations = _version_parts | length > 2 and (_version_parts[2] | int) < _attested_from -%}
+{%- if _lacks_attestations -%}
+[settings]
+# Python {{ python_version }} does not have attestations published to GitHub
+python.github_attestations = false
 
+{% endif -%}
 [tools]
 python = "{{ python_version }}"
 uv = "{{ uv_version }}"
