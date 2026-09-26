@@ -1,11 +1,11 @@
 min_version = "2026.7.0"
 
 [env]
-_.python.venv = { path = ".venv" }
+# Make uv use Python managed by mise
+# See https://mise.jdx.dev/lang/python.html#mise-uv
+UV_PYTHON = { value = "{{ tools.python.path }}", tools = true}
 
-[settings]
-# Make mise use Python version from .python-version which is also honored by uv
-idiomatic_version_file_enable_tools = ["python"]
 
 [tools]
+python = "{{ python_version }}"
 uv = "{{ uv_version }}"
