@@ -3,7 +3,7 @@ min_version = "2026.7.0"
 [env]
 # Make uv use Python managed by mise
 # See https://mise.jdx.dev/lang/python.html#mise-uv
-UV_PYTHON = { value = "{{ tools.python.path }}", tools = true}
+UV_PYTHON = { value = "{% raw %}{{ tools.python.path }}{% endraw %}", tools = true}
 
 
 [tools]
