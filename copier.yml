@@ -58,11 +58,10 @@ python_version:
   type: str
   help: What is the minimum Python version your package should support?
   default: "3.12"
-  choices:
-    - "3.10"
-    - "3.11"
-    - "3.12"
-    - "3.13"
+  validator: >-
+    {% if not (python_version | regex_search('^3\.(1[0-3])(\.\d+)?$')) %}
+    Invalid Python version "{{ python_version }}": use "3.N" or "3.N.P", where N is between 10 and 14 (for example, "3.12" or "3.12.4").
+    {% endif %}
 
 uv_version:
   type: str
@@ -81,3 +80,7 @@ project_name_kebab_case:
 project_name_snake_case:
   when: false
   default: "{{ project_name | lower | replace(' ', '_') }}"
+
+python_version_major_minor:
+  when: false
+  default: "{{ python_version.split('.')[:2] | join('.') }}"

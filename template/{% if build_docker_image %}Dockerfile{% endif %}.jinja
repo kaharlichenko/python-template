@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:{{ uv_version }}-python{{ python_version }}-trixie-slim AS builder
+FROM ghcr.io/astral-sh/uv:{{ uv_version }}-python{{ python_version_major_minor }}-trixie-slim AS builder
 
 ENV PYTHONUNBUFFERED=1
 ENV UV_COMPILE_BYTECODE=1
@@ -23,8 +23,8 @@ COPY . .
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv build --wheel --out-dir /wheelhouse
 
-FROM docker.io/library/python:{{ python_version }}-slim-trixie
+FROM docker.io/library/python:{{ python_version_major_minor }}-slim-trixie
 
-RUN --mount=from=ghcr.io/astral-sh/uv:{{ uv_version }}-python{{ python_version }}-trixie-slim,source=/usr/local/bin/uv,target=/bin/uv \
+RUN --mount=from=ghcr.io/astral-sh/uv:{{ uv_version }}-python{{ python_version_major_minor }}-trixie-slim,source=/usr/local/bin/uv,target=/bin/uv \
     --mount=type=bind,from=builder,source=/wheelhouse,target=/wheelhouse \
     uv pip install --system --no-index --find-links=/wheelhouse {{ project_name_snake_case }}
